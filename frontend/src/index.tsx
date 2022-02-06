@@ -18,7 +18,7 @@ const Root: React.FC = () => (
 const store = configureStore(undefined);
 
 render(
-  <Provider store={ store }>
+  <Provider store={store}>
     <Root />
     <Modal />
   </Provider>,
