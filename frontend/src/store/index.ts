@@ -1,12 +1,7 @@
-import { DefaultRootState } from 'react-redux';
-import { createStore, combineReducers, applyMiddleware, compose, StoreEnhancer } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose, Store, StoreEnhancer, AnyAction } from 'redux';
 import thunk from 'redux-thunk';
 
-import modal, { modalState } from './modal';
-
-export interface AppState extends DefaultRootState {
-  modal: modalState;
-}
+import modal from './modal';
 
 const rootReducer = combineReducers({
   modal
@@ -17,10 +12,12 @@ let enhancer: StoreEnhancer;
 if (process.env.NODE_ENV === 'production') {
   enhancer = applyMiddleware(thunk);
 } else {
-  const logger = require('redux-logger').default;
-  enhancer = compose(applyMiddleware(thunk, logger));
+  import('redux-logger')
+    .then(({ default: logger }) => {
+      enhancer = compose(applyMiddleware(thunk, logger));
+    });
 }
 
-export default function configureStore(preloadedState: any) {
+export default function configureStore (preloadedState: {}): Store<AppState, AnyAction> {
   return createStore(rootReducer, preloadedState, enhancer);
 }
