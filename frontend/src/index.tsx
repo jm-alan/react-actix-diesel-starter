@@ -1,3 +1,5 @@
+import type { Store, AnyAction } from 'redux';
+
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -15,7 +17,7 @@ const Root: React.FC = () => (
   </BrowserRouter>
 );
 
-const store = configureStore(undefined);
+const store: Store<AppState, AnyAction> = configureStore({});
 
 render(
   <Provider store={store}>
